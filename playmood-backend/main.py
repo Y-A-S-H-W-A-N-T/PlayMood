@@ -45,7 +45,6 @@ def search(q: str):
 
 # 🔥 STEP 1: PREPARE DOWNLOAD (NO TIMEOUT ISSUE)
 @app.get("/prepare-download")
-@app.get("/prepare-download")
 def prepare_download(url: str):
     filename = f"{uuid.uuid4()}.m4a"
 
@@ -54,19 +53,9 @@ def prepare_download(url: str):
         'outtmpl': filename,
         'quiet': True,
         'noplaylist': True,
-        'extractor_args': {
-            'youtube': {
-                'player_client': ['android', 'ios', 'web']
-            }
-        },
-        'http_headers': {
-            'User-Agent': (
-                'com.google.android.youtube/'
-                '19.09.37 (Linux; U; Android 13)'
-            )
-        }
+        'cookiefile': 'cookies.txt',
     }
-    print(f"Preparing download for URL: {url} with filename: {filename}")
+
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         ydl.download([url])
 
