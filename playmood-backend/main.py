@@ -56,6 +56,7 @@ def prepare_download(url: str):
         'cookiefile': 'cookies.txt',
     }
 
+    print(f"Preparing download for URL: {url} with output filename: {filename} | Youtube Cookies method")
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         ydl.download([url])
 
