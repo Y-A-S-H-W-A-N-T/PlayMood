@@ -52,6 +52,11 @@ def prepare_download(url: str):
         'format': 'bestaudio[ext=m4a]/bestaudio/best',
         'outtmpl': filename,
         'quiet': True,
+        'extractor_args': {
+            'youtube': {
+                'player_client': ['android', 'web']
+            }
+        }
     }
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:

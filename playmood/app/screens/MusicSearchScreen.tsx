@@ -53,7 +53,7 @@ export default function MusicSearchScreen() {
       console.log("Searching:", query);
 
       const res = await fetch(
-        `http://192.168.0.7:8000/search?q=${encodeURIComponent(query)}`
+        `https://playmood-1.onrender.com/search?q=${encodeURIComponent(query)}`
       );
 
       const data = await res.json();
@@ -85,7 +85,7 @@ export default function MusicSearchScreen() {
       }
 
       const prepRes = await fetch(
-        `http://192.168.0.7:8000/prepare-download?url=${encodeURIComponent(
+        `https://playmood-1.onrender.com/prepare-download?url=${encodeURIComponent(
           song.url
         )}`
       );
@@ -105,7 +105,7 @@ export default function MusicSearchScreen() {
       console.log("Saving to:", filePath);
 
       const result = await FileSystem.downloadAsync(
-        `http://192.168.0.7:8000/get-file?file=${prepData.file}`,
+        `https://playmood-1.onrender.com/get-file?file=${prepData.file}`,
         filePath
       );
 
