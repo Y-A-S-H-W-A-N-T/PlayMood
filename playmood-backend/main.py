@@ -46,32 +46,35 @@ def search(q: str):
 # 🔥 STEP 1: PREPARE DOWNLOAD (NO TIMEOUT ISSUE)
 @app.get("/prepare-download")
 def prepare_download(url: str):
-    filename = f"{uuid.uuid4()}"
+    file_id = str(uuid.uuid4())
 
     ydl_opts = {
-        'format': 'bestaudio/best',
-        'outtmpl': filename + '.%(ext)s',
+        'format': 'bestaudio',
+        'outtmpl': file_id + '.%(ext)s',
         'quiet': True,
         'noplaylist': True,
         'cookiefile': 'cookies.txt',
-        'postprocessors': [{
-            'key': 'FFmpegExtractAudio',
-            'preferredcodec': 'm4a',
-            'preferredquality': '192',
-        }],
     }
 
-    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        ydl.download([url])
+    print(f"Preparing download for URL: {url} with file ID: {file_id}")
 
-    return {"file": filename + ".m4a"}
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        info = ydl.extract_info(url, download=True)
+
+        ext = info.get('ext', 'm4a')
+
+    print(f"Download completed for URL: {url} with file ID: {file_id}")
+
+    return {
+        "file": f"{file_id}.{ext}"
+    }
 
 
 # 🔥 STEP 2: DOWNLOAD FILE
 @app.get("/get-file")
 def get_file(file: str):
+    print("Serving file:", file)
     return FileResponse(
         path=file,
-        media_type='audio/mp4',
-        filename="song.m4a"
+        filename=file
     )
